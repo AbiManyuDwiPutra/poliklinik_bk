@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2024 at 04:28 PM
+-- Generation Time: Jan 08, 2024 at 06:27 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -43,7 +43,9 @@ CREATE TABLE `daftar_poli` (
 INSERT INTO `daftar_poli` (`id`, `id_pasien`, `id_jadwal`, `keluhan`, `no_antrian`, `status_periksa`) VALUES
 (1, 1, 2, 'anak saya sakit perut', 1, '1'),
 (2, 3, 3, 'kaki tidak bisa di gerakan', 1, '1'),
-(3, 4, 3, 'pedot', 2, '0');
+(3, 4, 3, 'pedot', 2, '0'),
+(4, 5, 4, 'gusi bengkak', 1, '1'),
+(5, 6, 1, 'Cedera ACL', 1, '0');
 
 -- --------------------------------------------------------
 
@@ -63,7 +65,9 @@ CREATE TABLE `detail_periksa` (
 
 INSERT INTO `detail_periksa` (`id`, `id_periksa`, `id_obat`) VALUES
 (1, 1, 2),
-(2, 2, 10);
+(2, 2, 10),
+(3, 3, 10),
+(4, 3, 11);
 
 -- --------------------------------------------------------
 
@@ -88,8 +92,9 @@ INSERT INTO `dokter` (`id`, `nama`, `password`, `alamat`, `no_hp`, `id_poli`) VA
 (1, 'Denny', '5c0f9faf5b36a70eee40192f72b75632', 'Purwodadi', '0837285984', 7),
 (2, 'Rinda', '5c0f9faf5b36a70eee40192f72b75632', 'Semarang Indah', '08657734838', 2),
 (4, 'Andi', '5c0f9faf5b36a70eee40192f72b75632', 'Bandungan', '08768494059', 9),
-(6, 'Norman', 'e13981e25f573df3048f40ffe5ccecfa', 'Palembang', '08987654321', 5),
-(7, 'Rusmin', 'c9fe36c8d9d1639be26dd304c6127967', 'Rokal', '0789456125', 3);
+(6, 'Norman', 'e13981e25f573df3048f40ffe5ccecfa', 'Jambi\r\n', '08987654321', 1),
+(8, 'Mardiah', 'd2d265ba33ec7e467b792482af990f7e', 'jl. Suratmo', '07945612354', 6),
+(9, 'Tirta', 'c44b4033f6e8faeebb09afcb6df53617', 'Blora', '08795446', 3);
 
 -- --------------------------------------------------------
 
@@ -112,7 +117,9 @@ CREATE TABLE `jadwal_periksa` (
 INSERT INTO `jadwal_periksa` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`) VALUES
 (1, 1, 'Selasa', '15:00:00', '16:00:00'),
 (2, 2, 'Kamis', '12:00:00', '14:00:00'),
-(3, 4, 'Senin', '13:00:00', '14:00:00');
+(3, 4, 'Senin', '13:00:00', '14:00:00'),
+(4, 6, 'Rabu', '09:00:00', '12:00:00'),
+(5, 6, 'Senin', '10:00:00', '11:15:00');
 
 -- --------------------------------------------------------
 
@@ -132,7 +139,7 @@ CREATE TABLE `obat` (
 --
 
 INSERT INTO `obat` (`id`, `nama_obat`, `kemasan`, `harga`) VALUES
-(2, 'Panadol Merah', 'Tablet', 8000),
+(2, 'Panadol biru', 'Tablet', 8000),
 (3, ' Amitriptyline 1 mg', 'ktk 10 x 10 tablet', 28000),
 (4, 'Aminofilin 5 mg', 'ktk 10 x 10 table', 12000),
 (10, ' Aripiprazole', 'ktk 10 x 10', 18000),
@@ -162,7 +169,9 @@ INSERT INTO `pasien` (`id`, `nama`, `password`, `alamat`, `no_ktp`, `no_hp`, `no
 (1, 'Roni', '5c0f9faf5b36a70eee40192f72b75632', 'Bandungan', '048548549549', '08845743738', '202312-001'),
 (2, 'Emiya', '5c0f9faf5b36a70eee40192f72b75632', 'Grobokan', '3434337438439', '088463729398', '202312-002'),
 (3, 'Maryadi', '5c0f9faf5b36a70eee40192f72b75632', 'Surabaya', '50548375734574357', '0834824732472', '202312-003'),
-(4, 'rido', '52b29e1aa20c034dcec6015865e269df', 'lampung', '123456789', '08123456789', '202401-004');
+(4, 'rido', '52b29e1aa20c034dcec6015865e269df', 'lampung', '123456789', '08123456789', '202401-004'),
+(5, 'Sunoko', '648d9fb753deefdf3a047bc3b343ce03', 'Runyai', '132654985789', '01234569876', '202401-005'),
+(6, 'Dendi', '5cbbf65923f824b65961c8436d24b96d', 'Bengkulu', '0897456213', '0879456123', '202401-006');
 
 -- --------------------------------------------------------
 
@@ -184,7 +193,8 @@ CREATE TABLE `periksa` (
 
 INSERT INTO `periksa` (`id`, `id_daftar_poli`, `tgl_periksa`, `catatan`, `biaya_periksa`) VALUES
 (1, 1, '2024-01-05 21:05:00', 'tidak ada', 150000),
-(2, 2, '2024-01-06 20:20:00', 'sudah sembuh', 150000);
+(2, 2, '2024-01-06 20:20:00', 'sudah sembuh', 150000),
+(3, 4, '2024-01-10 10:15:00', 'obat diminun setelah makan 3 x 1', 150000);
 
 -- --------------------------------------------------------
 
@@ -279,43 +289,43 @@ ALTER TABLE `poli`
 -- AUTO_INCREMENT for table `daftar_poli`
 --
 ALTER TABLE `daftar_poli`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `detail_periksa`
 --
 ALTER TABLE `detail_periksa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `dokter`
 --
 ALTER TABLE `dokter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `jadwal_periksa`
 --
 ALTER TABLE `jadwal_periksa`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `obat`
 --
 ALTER TABLE `obat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `pasien`
 --
 ALTER TABLE `pasien`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `periksa`
 --
 ALTER TABLE `periksa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `poli`
