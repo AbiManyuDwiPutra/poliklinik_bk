@@ -153,7 +153,11 @@
                                 <?php
                                 $no = 1;
                             require 'config/koneksi.php';
-                            $query = "SELECT jadwal_periksa.id, jadwal_periksa.id_dokter, jadwal_periksa.hari, jadwal_periksa.jam_mulai, jadwal_periksa.jam_selesai, dokter.id AS idDokter, dokter.nama, dokter.alamat, dokter.no_hp, dokter.id_poli, poli.id AS idPoli, poli.nama_poli, poli.keterangan FROM jadwal_periksa INNER JOIN dokter ON jadwal_periksa.id_dokter = dokter.id INNER JOIN poli ON dokter.id_poli = poli.id WHERE id_poli = '$id_poli' AND dokter.id = '$id_dokter'";
+                            // $query = 'SELECT jadwal_periksa.*, dokter.nama FROM jadwal_periksa INNER JOIN dokter ON dokter.id = jadwal_periksa.id_dokter';
+                            $query = "SELECT jadwal_periksa.*, dokter.id AS idDokter, dokter.nama, dokter.alamat, dokter.no_hp, dokter.id_poli, 
+                            poli.id AS idPoli, poli.nama_poli, poli.keterangan FROM jadwal_periksa INNER JOIN dokter ON 
+                            jadwal_periksa.id_dokter = dokter.id INNER JOIN poli ON dokter.id_poli = poli.id 
+                            WHERE id_poli = '$id_poli' AND dokter.id = '$id_dokter'";
                             $result = mysqli_query($mysqli, $query);
 
                             while ($data = mysqli_fetch_assoc($result)) {
@@ -165,6 +169,7 @@
                                     <td><?php echo $data['hari'] ?></td>
                                     <td><?php echo $data['jam_mulai'] ?></td>
                                     <td><?php echo $data['jam_selesai'] ?></td>
+                                    <td><?php echo $data['aktif'] == 'Y' ? 'Aktif' : 'Tidak Aktif' ?></td>
                                     <td>
                                         <?php
                                             require 'config/koneksi.php';
@@ -182,9 +187,7 @@
                                         <button type='button' class='btn btn-sm btn-warning edit-btn'
                                             data-toggle="modal" data-target="#editModal<?php echo $data['id'] ?>"
                                             <?php echo $data['id_dokter'] == $id_dokter ? '' : 'disabled'?>>Edit</button>
-                                        <button type='button' class='btn btn-sm btn-danger edit-btn' data-toggle="modal"
-                                            data-target="#hapusModal<?php echo $data['id'] ?>"
-                                            <?php echo $data['id_dokter'] == $id_dokter ? '' : 'disabled'?>>Hapus</button>
+                                       
                                         <?php } ?>
                                     </td>
                                     <!-- Modal Edit Data Obat -->
@@ -228,38 +231,22 @@
                                                                 name="jamSelesai" required
                                                                 value="<?= $data['jam_selesai'] ?>">
                                                         </div>
-                                                        <button type="submit" class="btn btn-success">Simpan</button>
+                                                        <div class="form-group col-12">
+                                                            <label class="form-label">Status Jadwal</label>
+                                                            <select name="aktif" class="form-control" required>
+                                                                <option value="">-Pilih Status Jadwal-</option>
+                                                                <option value="Y" <?= $data['aktif'] === 'Y' ? 'selected' : '' ?>>Aktif</option>
+                                                                <option value="N" <?= $data['aktif'] === 'N' ? 'selected' : '' ?>>Nonaktif</option>
+                                                            </select>
+                                                        </div>
+                                                        <button type="submit" name="updateJadwal" class="btn btn-success">Simpan</button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Modal Hapus Data Obat -->
-                                    <div class="modal fade" id="hapusModal<?php echo $data['id'] ?>" tabindex="-1"
-                                        role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="addModalLabel">Hapus Data Obat</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Form edit data obat disini -->
-                                                    <form action="pages/obat/hapusObat.php" method="post">
-                                                        <input type="hidden" class="form-control" id="id" name="id"
-                                                            value="<?php echo $data['id'] ?>" required>
-                                                        <p>Apakah anda yakin akan menghapus data <span
-                                                                class="font-weight-bold"><?php echo $data['nama_obat'] ?></span>
-                                                        </p>
-                                                        <button type="submit" class="btn btn-danger">Hapus</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                  
                                 </tr>
                                 <?php } ?>
 

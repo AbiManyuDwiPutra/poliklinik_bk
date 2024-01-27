@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2024 at 06:27 AM
+-- Generation Time: Jan 27, 2024 at 06:18 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -107,19 +107,22 @@ CREATE TABLE `jadwal_periksa` (
   `id_dokter` int(11) NOT NULL,
   `hari` enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu') NOT NULL,
   `jam_mulai` time NOT NULL,
-  `jam_selesai` time NOT NULL
+  `jam_selesai` time NOT NULL,
+  `aktif` char(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `jadwal_periksa`
 --
 
-INSERT INTO `jadwal_periksa` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`) VALUES
-(1, 1, 'Selasa', '15:00:00', '16:00:00'),
-(2, 2, 'Kamis', '12:00:00', '14:00:00'),
-(3, 4, 'Senin', '13:00:00', '14:00:00'),
-(4, 6, 'Rabu', '09:00:00', '12:00:00'),
-(5, 6, 'Senin', '10:00:00', '11:15:00');
+INSERT INTO `jadwal_periksa` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`, `aktif`) VALUES
+(1, 1, 'Selasa', '15:00:00', '16:00:00', 'N'),
+(2, 2, 'Kamis', '12:00:00', '14:00:00', ''),
+(3, 4, 'Senin', '13:00:00', '14:00:00', ''),
+(4, 6, 'Rabu', '09:00:00', '12:00:00', 'Y'),
+(5, 6, 'Senin', '10:00:00', '11:15:00', 'Y'),
+(6, 6, 'Senin', '16:00:00', '18:00:00', 'Y'),
+(7, 8, 'Jumat', '00:00:00', '05:00:00', 'Y');
 
 -- --------------------------------------------------------
 
@@ -307,7 +310,7 @@ ALTER TABLE `dokter`
 -- AUTO_INCREMENT for table `jadwal_periksa`
 --
 ALTER TABLE `jadwal_periksa`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `obat`
